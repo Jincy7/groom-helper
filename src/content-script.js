@@ -5,6 +5,7 @@ const data = {
 
 (function () {
     init();
+    appendTextArea();
     const targetHead = document.querySelector(`title`);
     let observer = new MutationObserver(() => {
         init();
@@ -59,4 +60,23 @@ function trimHTMLEntities(target) {
         .replace(/\u00a0/g, " ") // nbsp 제거
         .replace(/[\u201C\u201D]/g, '"') // smart quote 를 straight quote 로 변경
         .replace(/[\u2018\u2019]/g, "'") // smart quote 를 straight quote 로 변경
+}
+
+function appendTextArea() {
+    let snippetContainerEl = document.createElement(`div`);
+    snippetContainerEl.innerHTML = `
+    <div class="snippet">
+    <header>
+        프로그래밍 입문 도우미
+        <span class="close-btn"></span>
+    </header>
+    <article>
+        <textarea></textarea>
+    </article>
+    <footer>
+        © 2019 <a href="https://github.com/Jincy7">https://github.com/Jincy7</a> All Rights Reserved
+    </footer>
+</div>
+    `;
+    document.body.appendChild(snippetContainerEl);
 }
