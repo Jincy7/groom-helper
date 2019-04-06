@@ -1,6 +1,7 @@
 const data = {
     targetText: undefined,
-    trimmedText: undefined
+    trimmedText: undefined,
+    cherryPickedText: undefined
 };
 
 // 최초 로딩, 텍스트 영역 초기화.
@@ -44,7 +45,8 @@ function init() {
                 document.querySelector(`header`).childNodes[1].prepend(activeBtn);
             }
             data.trimmedText = trimHTMLEntities(data.targetText);
-            data.textareaEl.innerText = data.trimmedText;
+            data.cherryPickedText = cherryPickFromText(data.trimmedText);
+            data.textareaEl.innerText = data.cherryPickedText;
         }
     }
     catch (e) {
@@ -91,7 +93,7 @@ function appendTextArea() {
 </div>
     `;
     snippetContainerEl.querySelector(`.copy-btn`).addEventListener(`click`, () => {
-        copyStringToClipboard(data.trimmedText);
+        copyStringToClipboard(data.cherryPickedText);
     });
     data.snippetEl = snippetContainerEl;
     data.textareaEl = snippetContainerEl.querySelector(`.textarea`);
@@ -108,4 +110,13 @@ function copyStringToClipboard (str) {
     document.execCommand(`copy`);
     document.body.removeChild(el);
     alert(`복사되었습니다! 입력란에 붙여넣기 해보세요!`);
+}
+
+function cherryPickFromText (target) {
+    const start = /^(\#include)/m;
+    const end = /^(실행 화면 예시)/m;
+    const startIndex = start.exec(target).index;
+    const endIndex = end.exec(target).index;
+    const result = target.substring(startIndex, endIndex);
+    return result;
 }
