@@ -1,13 +1,48 @@
-console.log(`Here is`, document.URL);
-
 const data = {
     targetText: undefined,
     trimmedText: undefined
 };
-// TODO Mutation observer 달아서 head 의 title 바뀔때 init 함수 호출하도록 구현
 
-// TODO 버튼 클릭 이벤트 리스너로 넣기
 (function () {
+    init();
+    const targetHead = document.querySelector(`title`);
+    let observer = new MutationObserver(() => {
+        init();
+    });
+    const config = {
+        attributes: true,
+        childList: true,
+        characterData: true
+    };
+    observer.observe(targetHead, config);
+})();
+
+function onClickCheatBtn() {
+    getTargetText(data);
+
+    if (data.targetText) {
+        data.trimmedText = trimHTMLEntities(data.targetText);
+        console.log(data.trimmedText);
+    }
+}
+
+function init() {
+    getTargetText(data);
+    let activeBtn = document.createElement(`span`);
+    activeBtn.classList.add(`cheat-btn`);
+    activeBtn.addEventListener(`click`, onClickCheatBtn);
+    try{
+        if(data.targetText){
+            if (!document.querySelector(`.cheat-btn`))
+            document.querySelector(`header`).childNodes[1].prepend(activeBtn);
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+function getTargetText(data) {
     try{
         data.targetText = document.childNodes[1].childNodes[2].childNodes[1].childNodes[0]
             .childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
@@ -16,26 +51,7 @@ const data = {
         data.targetText = undefined;
         console.log(e);
     }
-
-    if (data.targetText) {
-        data.trimmedText = trimHTMLEntities(data.targetText);
-        console.log(data.trimmedText);
-    }
-})();
-
-// TODO init 함수로 만들기
-(function () {
-    let activeBtn = document.createElement(`span`);
-    activeBtn.classList.add(`my-btn`);
-    try{
-        if(data.targetText){
-            document.querySelector(`header`).childNodes[1].prepend(activeBtn);
-        }
-    }
-    catch (e) {
-        console.log(e);
-    }
-})();
+}
 
 function trimHTMLEntities(target) {
     return target
