@@ -4,6 +4,9 @@ const data = {
     targetText: undefined,
     trimmedText: undefined
 };
+// TODO Mutation observer 달아서 head 의 title 바뀔때 init 함수 호출하도록 구현
+
+// TODO 버튼 클릭 이벤트 리스너로 넣기
 (function () {
     try{
         data.targetText = document.childNodes[1].childNodes[2].childNodes[1].childNodes[0]
@@ -20,6 +23,7 @@ const data = {
     }
 })();
 
+// TODO init 함수로 만들기
 (function () {
     let activeBtn = document.createElement(`span`);
     activeBtn.classList.add(`my-btn`);

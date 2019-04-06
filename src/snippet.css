@@ -3,6 +3,7 @@ span.my-btn {
     width: 10px;
     height: 10px;
     background: lawngreen;
+    cursor: pointer;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
