@@ -1,0 +1,9 @@
+span.my-btn {
+    margin-left: 24px;
+    width: 10px;
+    height: 10px;
+    background: lawngreen;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

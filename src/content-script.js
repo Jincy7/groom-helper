@@ -4,19 +4,34 @@ const data = {
     targetText: undefined,
     trimmedText: undefined
 };
+(function () {
+    try{
+        data.targetText = document.childNodes[1].childNodes[2].childNodes[1].childNodes[0]
+            .childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+            .childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[3].innerText;
+    } catch(e) {
+        data.targetText = undefined;
+        console.log(e);
+    }
 
-try{
-    data.targetText = document.childNodes[1].childNodes[2].childNodes[1].childNodes[0]
-        .childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        .childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[3].innerText;
-} catch(e) {
-    console.log(e);
-}
+    if (data.targetText) {
+        data.trimmedText = trimHTMLEntities(data.targetText);
+        console.log(data.trimmedText);
+    }
+})();
 
-if (data.targetText) {
-    data.trimmedText = trimHTMLEntities(data.targetText);
-    console.log(data.trimmedText);
-}
+(function () {
+    let activeBtn = document.createElement(`span`);
+    activeBtn.classList.add(`my-btn`);
+    try{
+        if(data.targetText){
+            document.querySelector(`header`).childNodes[1].prepend(activeBtn);
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+})();
 
 function trimHTMLEntities(target) {
     return target
