@@ -23,7 +23,10 @@ function onClickCheatBtn() {
 
     if (data.targetText) {
         data.trimmedText = trimHTMLEntities(data.targetText);
-        console.log(data.trimmedText);
+        data.textareaEl.innerText = data.trimmedText;
+        // CopyToClipboard(data.textareaEl);
+        copyStringToClipboard(data.trimmedText);
+        // console.log(data.trimmedText);
     }
 }
 
@@ -71,12 +74,25 @@ function appendTextArea() {
         <span class="close-btn"></span>
     </header>
     <article>
-        <textarea></textarea>
+        <div class="textarea"></div>
     </article>
     <footer>
         © 2019 <a href="https://github.com/Jincy7">https://github.com/Jincy7</a> All Rights Reserved
     </footer>
 </div>
     `;
+    data.textareaEl = snippetContainerEl.querySelector(`.textarea`);
     document.body.appendChild(snippetContainerEl);
+}
+
+function copyStringToClipboard (str) {
+    let el = document.createElement(`textarea`);
+    el.value = str;
+    el.setAttribute(`readonly`, ``);
+    el.style = {position: `absolute`, left: `-9999px`};
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand(`copy`);
+    document.body.removeChild(el);
+    alert(`복사되었습니다! 입력란에 붙여넣기 해보세요!`);
 }
