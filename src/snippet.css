@@ -12,6 +12,10 @@
     z-index: 100;
 }
 
+.hidden {
+    display: none;
+}
+
 .snippet header {
     position: relative;
     display: flex;

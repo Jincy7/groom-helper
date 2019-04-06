@@ -3,9 +3,10 @@ const data = {
     trimmedText: undefined
 };
 
+// 최초 로딩, 텍스트 영역 초기화.
 (function () {
-    init();
     appendTextArea();
+    init();
     const targetHead = document.querySelector(`title`);
     let observer = new MutationObserver(() => {
         init();
@@ -18,16 +19,18 @@ const data = {
     observer.observe(targetHead, config);
 })();
 
+// 단순 토글만 하고 init 으로 기능 이전.
 function onClickCheatBtn() {
-    getTargetText(data);
-
-    if (data.targetText) {
-        data.trimmedText = trimHTMLEntities(data.targetText);
-        data.textareaEl.innerText = data.trimmedText;
-        // CopyToClipboard(data.textareaEl);
-        copyStringToClipboard(data.trimmedText);
-        // console.log(data.trimmedText);
-    }
+    // getTargetText(data);
+    //
+    // if (data.targetText) {
+    //     data.trimmedText = trimHTMLEntities(data.targetText);
+    //     data.textareaEl.innerText = data.trimmedText;
+    //     // CopyToClipboard(data.textareaEl);
+    //     copyStringToClipboard(data.trimmedText);
+    //     // console.log(data.trimmedText);
+    // }
+    data.snippetEl.classList.toggle(`hidden`);
 }
 
 function init() {
@@ -37,8 +40,11 @@ function init() {
     activeBtn.addEventListener(`click`, onClickCheatBtn);
     try{
         if(data.targetText){
-            if (!document.querySelector(`.cheat-btn`))
-            document.querySelector(`header`).childNodes[1].prepend(activeBtn);
+            if (!document.querySelector(`.cheat-btn`)){
+                document.querySelector(`header`).childNodes[1].prepend(activeBtn);
+            }
+            data.trimmedText = trimHTMLEntities(data.targetText);
+            data.textareaEl.innerText = data.trimmedText;
         }
     }
     catch (e) {
@@ -81,6 +87,7 @@ function appendTextArea() {
     </footer>
 </div>
     `;
+    data.snippetEl = snippetContainerEl;
     data.textareaEl = snippetContainerEl.querySelector(`.textarea`);
     document.body.appendChild(snippetContainerEl);
 }
