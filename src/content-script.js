@@ -116,7 +116,7 @@ function cherryPickFromText (target) {
     const start = /^(\#include)/m;
     const end = /^(실행 화면 예시)/m;
     const startIndex = start.exec(target).index;
-    const endIndex = end.exec(target).index;
+    const endIndex = end.exec(target) != null ? end.exec(target).index : target.size;
     const result = target.substring(startIndex, endIndex);
     return result;
 }
