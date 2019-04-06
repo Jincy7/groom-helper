@@ -77,7 +77,10 @@ function appendTextArea() {
     <div class="snippet">
     <header>
         프로그래밍 입문 도우미
-        <span class="close-btn"></span>
+        <div class="copy-btn">
+            <div class="copy-icon0"></div>
+            <div class="copy-icon1"></div>
+        </div>
     </header>
     <article>
         <div class="textarea"></div>
@@ -87,6 +90,9 @@ function appendTextArea() {
     </footer>
 </div>
     `;
+    snippetContainerEl.querySelector(`.copy-btn`).addEventListener(`click`, () => {
+        copyStringToClipboard(data.trimmedText);
+    });
     data.snippetEl = snippetContainerEl;
     data.textareaEl = snippetContainerEl.querySelector(`.textarea`);
     document.body.appendChild(snippetContainerEl);
