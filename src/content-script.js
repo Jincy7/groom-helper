@@ -6,7 +6,6 @@ const data = {
 
 // 최초 로딩, 텍스트 영역 초기화.
 (function () {
-    appendTextArea();
     init();
     const targetHead = document.querySelector(`title`);
     let observer = new MutationObserver(() => {
@@ -22,20 +21,16 @@ const data = {
 
 // 단순 토글만 하고 init 으로 기능 이전.
 function onClickCheatBtn() {
-    // getTargetText(data);
-    //
-    // if (data.targetText) {
-    //     data.trimmedText = trimHTMLEntities(data.targetText);
-    //     data.textareaEl.innerText = data.trimmedText;
-    //     // CopyToClipboard(data.textareaEl);
-    //     copyStringToClipboard(data.trimmedText);
-    //     // console.log(data.trimmedText);
-    // }
     data.snippetEl.classList.toggle(`hidden`);
 }
 
 function init() {
     getTargetText(data);
+    if (data.snippetEl) {
+        data.snippetEl.classList.add(`hidden`);
+    } else {
+        appendTextArea();
+    }
     let activeBtn = document.createElement(`span`);
     activeBtn.classList.add(`cheat-btn`);
     activeBtn.addEventListener(`click`, onClickCheatBtn);
@@ -47,6 +42,9 @@ function init() {
             data.trimmedText = trimHTMLEntities(data.targetText);
             data.cherryPickedText = cherryPickFromText(data.trimmedText);
             data.textareaEl.innerText = data.cherryPickedText;
+            data.snippetEl
+                ? data.snippetEl.classList.remove(`hidden`)
+                : appendTextArea();
         }
     }
     catch (e) {
@@ -71,6 +69,7 @@ function trimHTMLEntities(target) {
         .replace(/\u00a0/g, " ") // nbsp 제거
         .replace(/[\u201C\u201D]/g, '"') // smart quote 를 straight quote 로 변경
         .replace(/[\u2018\u2019]/g, "'") // smart quote 를 straight quote 로 변경
+        .replace(/\n{2,}/g, `\n`);
 }
 
 function appendTextArea() {
@@ -113,10 +112,9 @@ function copyStringToClipboard (str) {
 }
 
 function cherryPickFromText (target) {
-    const start = /^(\#include)/m;
+    const start = /^(#include)/m;
     const end = /^(실행 화면 예시)/m;
     const startIndex = start.exec(target).index;
     const endIndex = end.exec(target) != null ? end.exec(target).index : target.size;
-    const result = target.substring(startIndex, endIndex);
-    return result;
+    return target.substring(startIndex, endIndex);
 }
